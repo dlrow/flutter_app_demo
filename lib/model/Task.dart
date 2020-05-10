@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import './SubTask.dart';
 
 class Task {
   String taskName;
   IconData icon;
   Color taskColor;
   String taskDescription;
-  String routeName;
+  String defaultRouteName;
+  List<SubTask> subTasks;
 
-  Task(this.taskName, this.icon, this.taskColor, this.taskDescription, this.routeName);
+  Task(this.taskName, this.icon, this.taskColor, this.taskDescription,
+      this.defaultRouteName, this.subTasks);
 }

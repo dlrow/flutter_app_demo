@@ -18,6 +18,7 @@ class _HolidayScreenState extends State<HolidayScreen> with Constants {
     return Scaffold(
       appBar: AppBar(
         title: Text(args.taskName),
+        backgroundColor: args.taskColor,
       ),
       body: Center(
         child: Text(args.taskDescription),

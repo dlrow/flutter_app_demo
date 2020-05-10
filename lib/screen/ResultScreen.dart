@@ -18,6 +18,7 @@ class _ResultScreenState extends State<ResultScreen> with Constants {
     return Scaffold(
       appBar: AppBar(
         title: Text(args.taskName),
+        backgroundColor: args.taskColor,
       ),
       body: Center(
         child: Text(args.taskDescription),

@@ -7,11 +7,15 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Person with ChangeNotifier {
-  String name;
   String phone;
+  String name;
   String address;
-  String userType;
+  String schoolId;
   String _token;
+  String userType;
+  List authorizedFor;
+  List classIds;
+  List studentIds;
 
   bool get isAuth {
     return _token != null;
@@ -22,37 +26,38 @@ class Person with ChangeNotifier {
   }
 
   Future<void> _authenticate(String phone, String pin) async {
-    final url = 'http://10.0.2.2:8081/v1/login';
-    if (phone == "9876543210" && pin == "1234") {
-      _token = "valid";
-      name = "Admin";
-    } else {
-      try {
-        final response = await http.post(
-          url,
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+    final url = 'http://10.0.2.2:8081/pt/user/v1/login';
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.encode(
+          {
+            'phone': phone,
+            'pin': pin,
           },
-          body: json.encode(
-            {
-              'phone': phone,
-              'pin': pin,
-            },
-          ),
-        );
+        ),
+      );
 
-        final responseData = json.decode(response.body);
-        if (responseData['error'] != null) {
-          throw HttpException(responseData['error']['message']);
-        }
-        _token = responseData['response']['accessToken'];
-        name = responseData['response']['name'];
-      } catch (error) {
-        throw error;
+      final responseData = json.decode(response.body);
+      if (responseData['error'] != null) {
+        throw HttpException(responseData['error']['message']);
       }
+      _token = responseData['accessToken'];
+      name = responseData['name'];
+      schoolId = responseData['schoolId'];
+      userType = responseData['userType'];
+      authorizedFor = responseData['authorizedFor'];
+      classIds = responseData['classIds'];
+      studentIds = responseData['studentIds'];
+      phone = phone;
+      notifyListeners();
+    } catch (error) {
+      throw error;
     }
-    phone = phone;
-    notifyListeners();
+
     await saveUserDataToDevice();
   }
 
@@ -63,6 +68,11 @@ class Person with ChangeNotifier {
         'token': _token,
         'name': name,
         'phone': phone,
+        'schoolId': schoolId,
+        'userType': userType,
+        'authorizedFor': authorizedFor,
+        'classIds': classIds,
+        'studentIds': studentIds,
       },
     );
     prefs.setString('userData', userData);
@@ -83,6 +93,11 @@ class Person with ChangeNotifier {
     _token = extractedUserData['token'];
     name = extractedUserData['name'];
     phone = extractedUserData['phone'];
+    schoolId = extractedUserData['schoolId'];
+    userType = extractedUserData['userType'];
+    authorizedFor = extractedUserData['authorizedFor'];
+    classIds = extractedUserData['classIds'];
+    studentIds = extractedUserData['studentIds'];
 
     if (!isValidToken(_token, phone)) {
       return false;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutterappdemo/screen/SubTaskSelectorScreen.dart';
 import '../model/Person.dart';
 import '../util/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../screen/AttendanceScreen.dart';
 import '../widget/AppDrawer.dart';
 import '../model/Task.dart';
 import '../model/Tasks.dart';
@@ -75,7 +75,8 @@ class DashboardScreen extends StatelessWidget {
   }
 
   List<GestureDetector> buildGridCards(BuildContext ctx) {
-    List<Task> tasks = new Tasks().loadTask();
+    Person p = Provider.of<Person>(ctx, listen: false);
+    List<Task> tasks = new Tasks().loadTask(p);
 
     if (tasks == null || tasks.isEmpty) {
       return const <GestureDetector>[];
@@ -84,7 +85,18 @@ class DashboardScreen extends StatelessWidget {
     return tasks.map((task) {
       return new GestureDetector(
         onTap: () => {
-          Navigator.pushNamed(ctx, AttendanceScreen.routeName, arguments: task),
+          if (task.subTasks.length > 1)
+            {
+              Navigator.pushNamed(ctx, SubTaskSelectorScreen.routeName,
+                  arguments: task),
+              print("Subtask screen called"),
+            }
+          else
+            {
+              Navigator.pushNamed(ctx, task.defaultRouteName,
+                  arguments: task.subTasks.first),
+              print("default screen called"),
+            }
         },
         child: Card(
           elevation: 2,
