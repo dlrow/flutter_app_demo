@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutterappdemo/model/Class.dart';
+import 'package:flutterappdemo/model/Student.dart';
 
 class StudentSelectorScreen extends StatelessWidget {
   static const routeName = '/select/student';
 
   @override
   Widget build(BuildContext context) {
-    final classList = ModalRoute.of(context).settings.arguments as List<Class>;
+    final students = ModalRoute.of(context).settings.arguments as List<Student>;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Select Class"),
+        title: Text("Student"),
       ),
       body: Container(
         padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
         child: ListView.builder(
-          itemCount: classList.length,
+          itemCount: students.length,
           itemBuilder: (context, index) {
-            Class cl = classList.elementAt(index);
+            Student s = students.elementAt(index);
 
             return GestureDetector(
               onTap: () => {
-                Navigator.pop(context, cl),
+                Navigator.pop(context, s),
               },
               child: Column(
                 children: <Widget>[
@@ -28,7 +29,10 @@ class StudentSelectorScreen extends StatelessWidget {
                     height: 12.0,
                   ),
                   ListTile(
-                    title: Text(cl.name),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(s.pic),
+                    ),
+                    title: Text(s.name),
                     trailing: Icon(
                       Icons.arrow_forward_ios,
                     ),

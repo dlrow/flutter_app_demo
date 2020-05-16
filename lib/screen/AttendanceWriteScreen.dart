@@ -20,14 +20,13 @@ class AttendanceWriteScreen extends StatefulWidget {
 
 class _AttendanceWriteScreenState extends State<AttendanceWriteScreen>
     with Constants {
-  Future<List<Class>> classList;
+  Future<List<Student>> students;
 
   @override
   void initState() {
     super.initState();
     Person person = Provider.of<Person>(context, listen: false);
-    classList = chooseClass(person);
-
+    students = chooseClass(person);
   }
 
   @override
@@ -35,8 +34,8 @@ class _AttendanceWriteScreenState extends State<AttendanceWriteScreen>
     log("build methid for AttendanceWriteScreen called ");
     Person person = Provider.of<Person>(context, listen: false);
     final args = ModalRoute.of(context).settings.arguments as SubTask;
-    return FutureBuilder<List<Class>>(
-      future: classList,
+    return FutureBuilder<List<Student>>(
+      future: students,
       builder: (BuildContext context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -65,7 +64,7 @@ class _AttendanceWriteScreenState extends State<AttendanceWriteScreen>
     );
   }
 
-  Future<List<Class>> chooseClass(Person person) async {
+  Future<List<Student>> chooseClass(Person person) async {
     log("entering chooseClass AttendannceWriteScreen");
     List<Class> classList = [];
     Class cl = new Class();
@@ -82,10 +81,13 @@ class _AttendanceWriteScreenState extends State<AttendanceWriteScreen>
       throw error;
     }
 
-    var selectedClass = await Navigator.pushNamed(context, ClassSelectorScreen.routeName, arguments: classList);
+    var selectedClass = await Navigator.pushNamed(
+        context, ClassSelectorScreen.routeName,
+        arguments: classList);
+    List<Student> students = [];
     print(selectedClass);
-    // List<Student> students = [];
+    //TODO : make api call to fetch studentsList from classId
     log("exiting chooseClass AttendannceWriteScreen");
-    return classList;
+    return students;
   }
 }

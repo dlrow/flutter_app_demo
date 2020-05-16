@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutterappdemo/model/Class.dart';
 
+//takes list of class as argument displays them in ListView and returns the selected class
 class ClassSelectorScreen extends StatelessWidget {
   static const routeName = '/select/class';
 
