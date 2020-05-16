@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterappdemo/screen/AttendanceTakeScreen.dart';
+import 'package:flutterappdemo/screen/AttendanceWriteScreen.dart';
 import 'package:flutterappdemo/screen/AttendanceViewScreen.dart';
 import 'package:flutterappdemo/screen/DiaryScreen.dart';
 import 'package:flutterappdemo/screen/ExamScreen.dart';
@@ -8,8 +8,9 @@ import 'package:flutterappdemo/screen/NoticeScreen.dart';
 import 'package:flutterappdemo/screen/ProfileScreen.dart';
 import 'package:flutterappdemo/screen/RemarkScreen.dart';
 import 'package:flutterappdemo/screen/ResultScreen.dart';
-import 'package:flutterappdemo/screen/SubTaskSelectorScreen.dart';
+import 'package:flutterappdemo/commonScreen/SubTaskSelectorScreen.dart';
 import 'package:flutterappdemo/screen/TimeTableScreen.dart';
+import 'commonScreen/ClassSelectorScreen.dart';
 import 'util/Constants.dart';
 import 'package:provider/provider.dart';
 import 'screen/LoginScreen.dart';
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
               DashboardScreen.routeName: (ctx) => DashboardScreen(),
               SubTaskSelectorScreen.routeName: (ctx) => SubTaskSelectorScreen(),
               AttendanceViewScreen.routeName: (ctx) => AttendanceViewScreen(),
-              AttendanceTakeScreen.routeName: (ctx) => AttendanceTakeScreen(),
+              AttendanceWriteScreen.routeName: (ctx) => AttendanceWriteScreen(),
               DiaryScreen.routeName: (ctx) => DiaryScreen(),
               ExamScreen.routeName: (ctx) => ExamScreen(),
               HolidayScreen.routeName: (ctx) => HolidayScreen(),
@@ -60,7 +61,8 @@ class MyApp extends StatelessWidget {
               ProfileScreen.routeName: (ctx) => ProfileScreen(),
               RemarkScreen.routeName: (ctx) => RemarkScreen(),
               ResultScreen.routeName: (ctx) => ResultScreen(),
-              TimeTableScreen.routeName: (ctx) => TimeTableScreen()
+              TimeTableScreen.routeName: (ctx) => TimeTableScreen(),
+              ClassSelectorScreen.routeName: (ctx) => ClassSelectorScreen(),
             }),
       ),
     );

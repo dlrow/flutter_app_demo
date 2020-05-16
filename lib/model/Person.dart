@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutterappdemo/util/Constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +27,7 @@ class Person with ChangeNotifier {
   }
 
   Future<void> _authenticate(String phone, String pin) async {
-    final url = 'http://10.0.2.2:8081/pt/user/v1/login';
+    final url = Constants.SERVICE_URL + '/user/v1/login';
     try {
       final response = await http.post(
         url,

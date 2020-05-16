@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutterappdemo/screen/SubTaskSelectorScreen.dart';
+import 'package:flutterappdemo/commonScreen/SubTaskSelectorScreen.dart';
 import '../model/Person.dart';
 import '../util/Constants.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +15,7 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("build methid for DashboardScreen called ");
     return Scaffold(
       appBar: AppBar(
         title: Text(Constants.TASK_SCREEN_APP_BAR_TITLE),
@@ -87,15 +90,15 @@ class DashboardScreen extends StatelessWidget {
         onTap: () => {
           if (task.subTasks.length > 1)
             {
+              log("subTasks > 1 calling SubTaskSelectorScree"),
               Navigator.pushNamed(ctx, SubTaskSelectorScreen.routeName,
                   arguments: task),
-              print("Subtask screen called"),
             }
           else
             {
+              log("subTasks<=1 calling defaultSubTaskScreen"),
               Navigator.pushNamed(ctx, task.defaultRouteName,
                   arguments: task.subTasks.first),
-              print("default screen called"),
             }
         },
         child: Card(

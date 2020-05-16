@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutterappdemo/model/SubTask.dart';
 import 'package:flutterappdemo/model/Task.dart';
@@ -8,6 +10,7 @@ class SubTaskSelectorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("build methid for SubTaskSelectorScreen called ");
     final task = ModalRoute.of(context).settings.arguments as Task;
     return Scaffold(
       appBar: AppBar(
@@ -32,14 +35,14 @@ class SubTaskSelectorScreen extends StatelessWidget {
       return const <GestureDetector>[];
     }
 
-    return subTasks.map((task) {
-      return new GestureDetector(
-        onTap: () => {
-          Navigator.pushNamed(ctx, task.routeName, arguments: task),
+    return subTasks.map((subTask) {
+      return GestureDetector(
+        onTap: ()=>   {
+          Navigator.pushNamed(ctx, subTask.routeName, arguments: subTask),
         },
         child: Card(
           elevation: 2,
-          color: task.taskColor,
+          color: subTask.taskColor,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Center(
@@ -47,12 +50,12 @@ class SubTaskSelectorScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 FaIcon(
-                  task.icon,
+                  subTask.icon,
                   color: Colors.white,
                 ),
                 //Icon(Icons.accessibility),
                 Text(
-                  task.taskName,
+                  subTask.taskName,
                   style: TextStyle(
                     color: Colors.white,
                   ),

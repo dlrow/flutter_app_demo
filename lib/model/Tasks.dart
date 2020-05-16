@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutterappdemo/model/SubTask.dart';
 import 'package:flutterappdemo/model/UType.dart';
-import 'package:flutterappdemo/screen/AttendanceTakeScreen.dart';
+import 'package:flutterappdemo/screen/AttendanceWriteScreen.dart';
 import 'package:flutterappdemo/screen/AttendanceViewScreen.dart';
 import 'package:flutterappdemo/screen/DiaryScreen.dart';
 import 'package:flutterappdemo/screen/ExamScreen.dart';
@@ -22,7 +24,7 @@ class Tasks  with Constants{
       FontAwesomeIcons.calendar,
       Color.fromARGB(200, 40, 181, 85),
       "show attendance of logged in student",
-      AttendanceTakeScreen.routeName);
+      AttendanceWriteScreen.routeName);
 
   static final SubTask attendanceView = new SubTask(
       "View Attendance",
@@ -109,6 +111,7 @@ class Tasks  with Constants{
       Color.fromARGB(200, 227, 68, 68), "Exam results", ResultScreen.routeName);*/
 
   List<Task> loadTask(Person p) {
+    log("loadTask called in Tasks class");
     String userType = p.userType.toString();
     List<Task> tasks = [];
     if (userType == Constants.TEACHER) {
