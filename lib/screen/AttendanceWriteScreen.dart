@@ -26,68 +26,121 @@ class _AttendanceWriteScreenState extends State<AttendanceWriteScreen>
   void initState() {
     super.initState();
     Person person = Provider.of<Person>(context, listen: false);
-    students = chooseClass(person);
+    students = getStudents(person);
   }
 
   @override
   Widget build(BuildContext context) {
     log("build methid for AttendanceWriteScreen called ");
-    Person person = Provider.of<Person>(context, listen: false);
     final args = ModalRoute.of(context).settings.arguments as SubTask;
     return FutureBuilder<List<Student>>(
       future: students,
       builder: (BuildContext context, snapshot) {
         switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return Text('Press button to start');
           case ConnectionState.waiting:
             return SplashScreen();
           default:
             if (snapshot.hasError)
-              return new Text('Error: ${snapshot.error}');
+              return  Text('Error: ${snapshot.error}');
+            if (snapshot.data==null)
+              return  Text('Going back');
             else
-              return attendanceWriteWidget(args);
+              return attendanceWriteWidget(args, snapshot.data);
         }
       },
     );
   }
 
-  Scaffold attendanceWriteWidget(SubTask args) {
+  Scaffold attendanceWriteWidget(SubTask args, List<Student> students) {
     return Scaffold(
       appBar: AppBar(
         title: Text(args.taskName),
         backgroundColor: args.taskColor,
       ),
-      body: Center(
-        child: Text("This is take attendance screen"),
+      body: ListView.builder(
+        itemCount: students.length,
+        itemBuilder: (context, index) {
+          Student s = students.elementAt(index);
+
+          return GestureDetector(
+            onTap: () => {
+              Navigator.pop(context, s),
+            },
+            child: Column(
+              children: <Widget>[
+                Divider(
+                  height: 12.0,
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                   // backgroundImage: NetworkImage(s.pic),
+                  ),
+                  title: Text(s.name),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
-  Future<List<Student>> chooseClass(Person person) async {
-    log("entering chooseClass AttendannceWriteScreen");
+  Future<List<Student>> getStudents(Person person) async {
+    log("entering getStudents AttendannceWriteScreen");
     List<Class> classList = [];
-    Class cl = new Class();
-    final fetchClassByIdsUrl =
-        Constants.SERVICE_URL + '/class/get/5ebfb0b6a05cf624f38d21fc';
+
+    var uri = Uri(
+      scheme: 'http',
+      host: Constants.HOST,
+      port: Constants.PORT,
+      path: '/pt/class/listByIds',
+      queryParameters: {
+        'listOfClassIds': person.classIds,
+      },
+    );
+
     try {
-      final response = await http.get(fetchClassByIdsUrl);
-      final responseData = json.decode(response.body);
-      cl.name = responseData['className'];
-      cl.desc = responseData['classId'];
-      classList.add(cl);
-      classList.add(cl);
+      final classResponse = await http.get(uri);
+      final classResponseData = json.decode(classResponse.body) as List;
+
+      for (int i = 0; i < classResponseData.length; i++) {
+        Class cl = new Class();
+        cl.name = classResponseData[i]['className'];
+        cl.desc = classResponseData[i]['classId'];
+        classList.add(cl);
+      }
     } catch (error) {
-      throw error;
+      log(error);
     }
 
-    var selectedClass = await Navigator.pushNamed(
+    Class selectedClass = await Navigator.pushNamed(
         context, ClassSelectorScreen.routeName,
-        arguments: classList);
+        arguments: classList) as Class;
+
+    if (selectedClass == null) {
+      Navigator.pop(context);
+      return null;
+    }
+
     List<Student> students = [];
-    print(selectedClass);
-    //TODO : make api call to fetch studentsList from classId
-    log("exiting chooseClass AttendannceWriteScreen");
+    final fetchStudentByClassIdsUrl =
+        Constants.SERVICE_URL + 'student/allstudent/' + selectedClass.desc;
+    try {
+      final studentResponse = await http.get(fetchStudentByClassIdsUrl);
+      final studentResponseData = json.decode(studentResponse.body) as List;
+      for (int i = 0; i < studentResponseData.length; i++) {
+        Student st = new Student();
+        st.name = studentResponseData[i]['firstName'];
+        st.address = studentResponseData[i]['classId'];
+        students.add(st);
+      }
+    } catch (error) {
+      log(error);
+    }
+    log("exiting getStudents AttendannceWriteScreen");
     return students;
   }
 }
