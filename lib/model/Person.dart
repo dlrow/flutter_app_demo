@@ -7,6 +7,7 @@ import 'package:flutterappdemo/util/Constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+//stores logged in person : teacher/principal/parent/admin
 class Person with ChangeNotifier {
   String phone;
   String name;

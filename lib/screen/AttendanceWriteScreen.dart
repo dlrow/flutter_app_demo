@@ -6,6 +6,7 @@ import 'package:flutterappdemo/model/Class.dart';
 import 'package:flutterappdemo/model/Student.dart';
 import 'package:flutterappdemo/model/SubTask.dart';
 import 'package:flutterappdemo/screen/SplashScreen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../model/Person.dart';
 import '../util/Constants.dart';
@@ -40,10 +41,9 @@ class _AttendanceWriteScreenState extends State<AttendanceWriteScreen>
           case ConnectionState.waiting:
             return SplashScreen();
           default:
-            if (snapshot.hasError)
-              return  Text('Error: ${snapshot.error}');
-            if (snapshot.data==null)
-              return  Text('Going back');
+            if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+            if (snapshot.data == null)
+              return Text('Going back');
             else
               return attendanceWriteWidget(args, snapshot.data);
         }
@@ -62,26 +62,27 @@ class _AttendanceWriteScreenState extends State<AttendanceWriteScreen>
         itemBuilder: (context, index) {
           Student s = students.elementAt(index);
 
-          return GestureDetector(
-            onTap: () => {
-              Navigator.pop(context, s),
-            },
-            child: Column(
-              children: <Widget>[
-                Divider(
-                  height: 12.0,
-                ),
-                ListTile(
-                  leading: CircleAvatar(
-                   // backgroundImage: NetworkImage(s.pic),
+          return Column(
+            children: <Widget>[
+              Divider(
+                height: 12.0,
+              ),
+              ListTile(
+                leading: CircleAvatar(
+                    // backgroundImage: NetworkImage(s.pic),
+                    ),
+                title: Text(s.name),
+                trailing: GestureDetector(
+                  onTap: (){
+
+                  },
+                  child: FaIcon(
+                    FontAwesomeIcons.checkCircle,
+                    color: Colors.green,
                   ),
-                  title: Text(s.name),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

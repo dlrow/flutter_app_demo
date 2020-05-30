@@ -22,23 +22,21 @@ class ClassSelectorScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             Class cl = classList.elementAt(index);
 
-            return GestureDetector(
-              onTap: () => {
-                Navigator.pop(context, cl),
-              },
-              child: Column(
-                children: <Widget>[
-                  Divider(
-                    height: 12.0,
+            return Column(
+              children: <Widget>[
+                Divider(
+                  height: 12.0,
+                ),
+                ListTile(
+                  onTap: () => {
+                    Navigator.pop(context, cl),
+                  },
+                  title: Text(cl.name),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
                   ),
-                  ListTile(
-                    title: Text(cl.name),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),

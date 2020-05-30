@@ -12,5 +12,6 @@ class Student with ChangeNotifier {
   String address;
   String schoolId;
   String classIds;
+  
 
 }

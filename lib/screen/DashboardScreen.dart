@@ -11,7 +11,7 @@ import '../model/Task.dart';
 import '../model/Tasks.dart';
 
 class DashboardScreen extends StatelessWidget {
-  static const routeName = '/dashboard';
+  static const routeName = '/dasboard';
 
   @override
   Widget build(BuildContext context) {

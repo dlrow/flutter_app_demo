@@ -2,16 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutterappdemo/model/SubTask.dart';
-import 'package:flutterappdemo/model/UType.dart';
-import 'package:flutterappdemo/screen/AttendanceWriteScreen.dart';
+import 'package:flutterappdemo/screen/AddSchoolScreen.dart';
 import 'package:flutterappdemo/screen/AttendanceViewScreen.dart';
+import 'package:flutterappdemo/screen/AttendanceWriteScreen.dart';
 import 'package:flutterappdemo/screen/DiaryScreen.dart';
-import 'package:flutterappdemo/screen/ExamScreen.dart';
-import 'package:flutterappdemo/screen/HolidaysScreen.dart';
 import 'package:flutterappdemo/screen/NoticeScreen.dart';
-import 'package:flutterappdemo/screen/RemarkScreen.dart';
-import 'package:flutterappdemo/screen/ResultScreen.dart';
-import 'package:flutterappdemo/screen/TimeTableScreen.dart';
 import 'package:flutterappdemo/util/Constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -85,6 +80,21 @@ class Tasks  with Constants{
       NoticeScreen.routeName,
       [noticeRead]);
 
+  static final SubTask addSchoolSubTask = new SubTask(
+      "Add School ",
+      FontAwesomeIcons.school,
+      Color.fromARGB(200, 106, 27, 150),
+      "Add School screen",
+      AddSchoolScreen.routeName);
+
+  final Task addSchool = new Task(
+      "Add School ",
+      FontAwesomeIcons.school,
+      Color.fromARGB(200, 106, 27, 150),
+      "Add School screen",
+      AddSchoolScreen.routeName,
+      [addSchoolSubTask]);
+
   /* final Task timeTable = new Task(
       "Time Table",
       FontAwesomeIcons.clock,
@@ -122,6 +132,7 @@ class Tasks  with Constants{
     tasks.add(attendance);
     tasks.add(diary);
     tasks.add(notice);
+    tasks.add(addSchool);
     return tasks;
   }
 }
