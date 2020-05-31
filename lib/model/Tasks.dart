@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutterappdemo/model/SubTask.dart';
+import 'package:flutterappdemo/screen/AddClassScreen.dart';
 import 'package:flutterappdemo/screen/AddSchoolScreen.dart';
 import 'package:flutterappdemo/screen/AttendanceViewScreen.dart';
 import 'package:flutterappdemo/screen/AttendanceWriteScreen.dart';
@@ -13,7 +15,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import './Task.dart';
 import 'Person.dart';
 
-class Tasks  with Constants{
+class Tasks with Constants {
   static final SubTask attendanceWrite = new SubTask(
       "Take Attendance",
       FontAwesomeIcons.calendar,
@@ -84,16 +86,23 @@ class Tasks  with Constants{
       "Add School ",
       FontAwesomeIcons.school,
       Color.fromARGB(200, 106, 27, 150),
-      "Add School screen",
+      "Add School ",
       AddSchoolScreen.routeName);
 
-  final Task addSchool = new Task(
-      "Add School ",
+  static final SubTask addClassSubTask = new SubTask(
+      "Add Class ",
       FontAwesomeIcons.school,
       Color.fromARGB(200, 106, 27, 150),
-      "Add School screen",
+      "Add Class ",
+      AddClassScreen.routeName);
+
+  final Task adminTask = new Task(
+      "Admin ",
+      Icons.person,
+      Color.fromARGB(200, 106, 27, 150),
+      "Admin screen",
       AddSchoolScreen.routeName,
-      [addSchoolSubTask]);
+      [addSchoolSubTask, addClassSubTask]);
 
   /* final Task timeTable = new Task(
       "Time Table",
@@ -124,7 +133,11 @@ class Tasks  with Constants{
     log("loadTask called in Tasks class");
     String userType = p.userType.toString();
     List<Task> tasks = [];
-    if (userType == Constants.TEACHER) {
+    if (userType == Constants.ADMIN) {
+      tasks.add(adminTask);
+    }
+
+    if (userType == Constants.ADMIN || userType == Constants.TEACHER) {
       attendance.subTasks.add(attendanceWrite);
       diary.subTasks.add(diaryWrite);
       notice.subTasks.add(noticeWrite);
@@ -132,7 +145,6 @@ class Tasks  with Constants{
     tasks.add(attendance);
     tasks.add(diary);
     tasks.add(notice);
-    tasks.add(addSchool);
     return tasks;
   }
 }

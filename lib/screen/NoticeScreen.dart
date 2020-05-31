@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterappdemo/model/SubTask.dart';
 import 'package:flutterappdemo/model/Task.dart';
 import '../model/Person.dart';
 import '../util/Constants.dart';
@@ -14,7 +15,7 @@ class _NoticeScreenState extends State<NoticeScreen> with Constants {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context).settings.arguments as Task;
+    final args = ModalRoute.of(context).settings.arguments as SubTask;
     return Scaffold(
       appBar: AppBar(
         title: Text(args.taskName),

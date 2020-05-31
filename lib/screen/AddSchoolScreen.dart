@@ -1,20 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutterappdemo/commonScreen/ClassSelectorScreen.dart';
-import 'package:flutterappdemo/model/Class.dart';
-import 'package:flutterappdemo/model/Student.dart';
 import 'package:flutterappdemo/model/SubTask.dart';
-import 'package:flutterappdemo/model/Task.dart';
-import 'package:flutterappdemo/screen/SplashScreen.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import '../model/Person.dart';
+
 import '../util/Constants.dart';
-import 'package:provider/provider.dart';
 
 class AddSchoolScreen extends StatefulWidget {
   static const routeName = '/school/add';
@@ -24,14 +16,29 @@ class AddSchoolScreen extends StatefulWidget {
 }
 
 class _AddSchoolScreenState extends State<AddSchoolScreen> with Constants {
-  @override
-  void initState() {}
-
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Save successfull!'),
         content: Text(message),
         actions: <Widget>[
           FlatButton(
@@ -85,27 +92,14 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> with Constants {
       await _saveSchool(_addressController.text, _pinCodeController.text,
           _cityController.text, _nameController.text, _stateController.text);
     } on Exception catch (error) {
-      var errorMessage = 'Authentication failed';
-      if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'This email address is already in use.';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email address';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
-        errorMessage = 'This password is too weak.';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a user with that email.';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
-        errorMessage = 'Invalid password.';
-      }
+      var errorMessage = 'save failed';
       _showErrorDialog(errorMessage);
-    } catch (error) {
-      const errorMessage =
-          'Could not authenticate you. Please try again later.';
-      _showErrorDialog(errorMessage);
-    } finally {
+    }  finally {
+      _showSuccessDialog("school saved successfully");
       setState(() {
         _isLoading = false;
       });
+
     }
   }
 

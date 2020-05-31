@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterappdemo/commonScreen/SubTaskSelectorScreen.dart';
+import 'package:flutterappdemo/screen/AddClassScreen.dart';
 import 'package:flutterappdemo/screen/AttendanceViewScreen.dart';
 import 'package:flutterappdemo/screen/AttendanceWriteScreen.dart';
 import 'package:flutterappdemo/screen/DiaryScreen.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
               TimeTableScreen.routeName: (ctx) => TimeTableScreen(),
               ClassSelectorScreen.routeName: (ctx) => ClassSelectorScreen(),
               AddSchoolScreen.routeName: (ctx) => AddSchoolScreen(),
+              AddClassScreen.routeName: (ctx) => AddClassScreen(),
             }),
       ),
     );
